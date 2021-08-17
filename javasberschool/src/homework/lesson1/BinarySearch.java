@@ -1,22 +1,23 @@
 package homework.lesson1;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class BinarySearch {
     public static void main(String[] args) {
-//        List<Integer> list = Arrays.asList(0, 7, 3, 9, 5, 2, 6, 1, 8, 4);
-        List<String> list = Arrays.asList("F", "B", "J", "D", "H", "E", "A", "G", "I", "C");
+        List<Integer> list = Arrays.asList(0, 7, 3, 9, 5, 2, 6, 1, 8, 4);
+//        List<String> list = Arrays.asList("F", "B", "J", "D", "H", "E", "A", "G", "I", "C");
 
-        list.stream().forEach(item -> System.out.printf(item.toString()));
+        list.forEach(item -> System.out.print(item.toString()));
         System.out.println();
 
-        list.sort((o1, o2) -> o1.compareTo(o2));
+        list.sort(Comparator.naturalOrder());
 
-        list.stream().forEach(item -> System.out.printf(item.toString()));
+        list.forEach(item -> System.out.print(item.toString()));
         System.out.println();
 
-        int index = binarySearch(list, "C", 0, list.size() - 1);
+        int index = binarySearch(list, 6, 0, list.size() - 1);
 
         System.out.println(index);
     }

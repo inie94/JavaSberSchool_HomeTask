@@ -10,7 +10,7 @@ public class BubbleSorting {
 
         printList(list);
 
-        list = bubbleSort(list);
+        bubbleSort(list);
 
         printList(list);
     }
@@ -22,7 +22,7 @@ public class BubbleSorting {
         System.out.println();
     }
 
-    public static <T extends Comparable<T>> List<T> bubbleSort(List<T> list) {
+    public static <T extends Comparable<T>> void bubbleSort(List<T> list) {
         boolean isSorted = false;
         while (!isSorted) {
             isSorted = true;
@@ -35,6 +35,5 @@ public class BubbleSorting {
                 }
             }
         }
-        return list;
     }
 }
