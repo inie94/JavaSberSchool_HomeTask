@@ -7,6 +7,7 @@ import java.util.List;
 public class BinarySearch {
     public static void main(String[] args) {
         List<Integer> list = Arrays.asList(0, 7, 3, 9, 5, 2, 6, 1, 8, 4);
+//        List<Character> list = Arrays.asList('y', 'g', 's', 'j', 'w', 'e', 'u');
 //        List<String> list = Arrays.asList("F", "B", "J", "D", "H", "E", "A", "G", "I", "C");
 
         list.forEach(item -> System.out.print(item.toString()));

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class BubbleSorting {
     public static void main(String[] args) {
+//        List<Character> list = Arrays.asList('y', 'g', 's', 'j', 'w', 'e', 'u');
 //        List<Integer> list = Arrays.asList(0, 7, 3, 9, 5, 2, 6, 1, 8, 4);
         List<String> list = Arrays.asList("F", "B", "J", "D", "H", "E", "A", "G", "I", "C");
 
