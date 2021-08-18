@@ -1,16 +1,16 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
-public class LeidenTemperature extends Temperature {
+public class FahrenheitTemperature extends Temperature {
 
     private double value;
 
-    public LeidenTemperature(double degreesCelsius) {
+    public FahrenheitTemperature(double degreesCelsius) {
         this.value = convert(degreesCelsius);
     }
 
     @Override
     double convert(double degreesCelsius) {
-        return degreesCelsius + 253;
+        return (9d/5d) * degreesCelsius + 32;
     }
 
     public double getValue() {
@@ -23,7 +23,7 @@ public class LeidenTemperature extends Temperature {
 
     @Override
     public String toString() {
-        return "LeidenTemperature{" +
-                "value=" + value + "°L}";
+        return "FahrenheitTemperature{" +
+                "value=" + value + "°F}";
     }
 }

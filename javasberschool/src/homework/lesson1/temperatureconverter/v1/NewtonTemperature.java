@@ -1,16 +1,16 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
-public class RomerTemperature extends Temperature {
+public class NewtonTemperature extends Temperature {
 
-    private double value;
+    public double value;
 
-    public RomerTemperature(double degreesCelsius) {
+    public NewtonTemperature(double degreesCelsius) {
         this.value = convert(degreesCelsius);
     }
 
     @Override
     double convert(double degreesCelsius) {
-        return (21d/40d) * degreesCelsius + 7.5;
+        return (33d/100d) * degreesCelsius;
     }
 
     public double getValue() {
@@ -23,7 +23,7 @@ public class RomerTemperature extends Temperature {
 
     @Override
     public String toString() {
-        return "RomerTemperature{" +
-                "value=" + value + "°Rø}";
+        return "NewtonTemperature{" +
+                "value=" + value + "°N}";
     }
 }

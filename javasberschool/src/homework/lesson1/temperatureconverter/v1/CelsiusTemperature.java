@@ -1,4 +1,4 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
 public class CelsiusTemperature extends Temperature {
 

@@ -1,16 +1,16 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
-public class HookeTemperature extends Temperature {
+public class KelvinTemperature extends Temperature{
 
     private double value;
 
-    public HookeTemperature(double degreesCelsius) {
+    public KelvinTemperature(double degreesCelsius) {
         this.value = convert(degreesCelsius);
     }
 
     @Override
     double convert(double degreesCelsius) {
-        return (12d/5d) * degreesCelsius;
+        return degreesCelsius + 273.15;
     }
 
     public double getValue() {
@@ -23,7 +23,8 @@ public class HookeTemperature extends Temperature {
 
     @Override
     public String toString() {
-        return "HookeTemperature{" +
-                "value=" + value + "°H}";
+        return "KelvinTemperature{" +
+                "value=" + value +
+                " K}";
     }
 }

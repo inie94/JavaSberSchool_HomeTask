@@ -1,16 +1,16 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
-public class NewtonTemperature extends Temperature {
+public class LeidenTemperature extends Temperature {
 
-    public double value;
+    private double value;
 
-    public NewtonTemperature(double degreesCelsius) {
+    public LeidenTemperature(double degreesCelsius) {
         this.value = convert(degreesCelsius);
     }
 
     @Override
     double convert(double degreesCelsius) {
-        return (33d/100d) * degreesCelsius;
+        return degreesCelsius + 253;
     }
 
     public double getValue() {
@@ -23,7 +23,7 @@ public class NewtonTemperature extends Temperature {
 
     @Override
     public String toString() {
-        return "NewtonTemperature{" +
-                "value=" + value + "°N}";
+        return "LeidenTemperature{" +
+                "value=" + value + "°L}";
     }
 }

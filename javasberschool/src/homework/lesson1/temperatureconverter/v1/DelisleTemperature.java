@@ -1,16 +1,16 @@
-package homework.lesson1.temperatureconverter;
+package homework.lesson1.temperatureconverter.v1;
 
-public class FahrenheitTemperature extends Temperature {
+public class DelisleTemperature extends Temperature {
 
     private double value;
 
-    public FahrenheitTemperature(double degreesCelsius) {
+    public DelisleTemperature(double degreesCelsius) {
         this.value = convert(degreesCelsius);
     }
 
     @Override
     double convert(double degreesCelsius) {
-        return (9d/5d) * degreesCelsius + 32;
+        return (100 - degreesCelsius) * (3d/2d);
     }
 
     public double getValue() {
@@ -23,7 +23,7 @@ public class FahrenheitTemperature extends Temperature {
 
     @Override
     public String toString() {
-        return "FahrenheitTemperature{" +
-                "value=" + value + "°F}";
+        return "DelisleTemperature{" +
+                "value=" + value + "°D}";
     }
 }
