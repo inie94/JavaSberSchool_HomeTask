@@ -5,12 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class UniqueWords {
+public class Content {
 
     private String path;
     private List<String> fileContent;
 
-    public UniqueWords(String path) {
+    public Content(String path) {
         this.path = path;
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             List<String> fileContent = new ArrayList<>();
@@ -117,10 +117,10 @@ public class UniqueWords {
     class ReverseIterator<E> implements Iterator<E> {
 
         int cursor;
-        int lastRet = UniqueWords.this.fileContent.size();
+        int lastRet = Content.this.fileContent.size();
 
         ReverseIterator() {
-            this.cursor = UniqueWords.this.fileContent.size() - 1;
+            this.cursor = Content.this.fileContent.size() - 1;
         }
 
         @Override
@@ -134,7 +134,7 @@ public class UniqueWords {
             if (i < 0)
                 throw new NoSuchElementException();
             cursor = i - 1;
-            return (E) UniqueWords.this.fileContent.toArray()[lastRet = i];
+            return (E) Content.this.fileContent.toArray()[lastRet = i];
         }
     }
 }
