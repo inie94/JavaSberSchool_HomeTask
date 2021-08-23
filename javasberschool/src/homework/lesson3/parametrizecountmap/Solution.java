@@ -1,4 +1,4 @@
-package homework.lesson3;
+package homework.lesson3.parametrizecountmap;
 
 public class Solution {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package homework.lesson3;
+package homework.lesson3.parametrizecountmap;
 
 import java.util.HashMap;
 import java.util.Map;
