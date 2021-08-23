@@ -1,7 +1,6 @@
 package homework.lesson3.pecsrules;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +55,7 @@ public class CollectionUtils {
                 result.add(o);
             }
         });
-        Collections.sort(result, comparator);
+        result.sort(comparator);
         return result;
     }
 
