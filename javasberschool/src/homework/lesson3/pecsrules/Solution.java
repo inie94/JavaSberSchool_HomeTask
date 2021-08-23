@@ -36,9 +36,12 @@ public class Solution {
         System.out.println(CollectionUtils.containsAll(dest, src));
 
 
+
         List<Integer> newList = CollectionUtils.newArrayList();
-        CollectionUtils.addAll(newList, Arrays.asList(7, 10));
+        newList.addAll(Arrays.asList(14, 10));
         dest.forEach(System.out::print);
+        System.out.println();
+        newList.forEach(System.out::print);
         System.out.println();
         System.out.println(CollectionUtils.containsAny(dest, newList));
 

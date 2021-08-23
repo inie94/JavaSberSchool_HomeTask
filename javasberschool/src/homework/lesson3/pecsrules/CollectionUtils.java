@@ -12,7 +12,7 @@ public class CollectionUtils {
     }
 
     public static <T> List<T> newArrayList() {
-        return new ArrayList<T>();
+        return new ArrayList<>();
     }
 
     public static <T> int indexOf(List<? extends T> source, T o) {
@@ -36,9 +36,7 @@ public class CollectionUtils {
     }
 
     public static <T> boolean containsAny(List<? super T> c1, List<? extends T> c2) {
-        if(c2.stream().findAny().filter(t -> c1.contains(t)) != null)
-            return true;
-        return false;
+        return c2.stream().anyMatch(c1::contains);
     }
 
     public static <T extends Comparable<T>> List<T> range(List<T> list, T min, T max) {
