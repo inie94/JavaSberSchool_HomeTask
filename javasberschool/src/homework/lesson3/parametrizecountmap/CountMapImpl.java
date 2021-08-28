@@ -31,13 +31,13 @@ public class CountMapImpl<K> implements CountMap<K>{
     }
 
     @Override
-    public void addAll(CountMap source) {
+    public void addAll(CountMap<K> source) {
         for (Object key: source.toMap().keySet()) {
             Integer count;
             if((count = map.get(key)) == null) {
                 count = 0;
             }
-            map.put((K) key, source.getCount(key) + count);
+            map.put((K) key, source.getCount((K) key) + count);
         }
     }
 

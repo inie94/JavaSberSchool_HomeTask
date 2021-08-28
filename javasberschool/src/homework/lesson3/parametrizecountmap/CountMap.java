@@ -17,7 +17,7 @@ public interface CountMap<K> {
 
     //Добавить все элементы из source в текущий контейнер,
     // при совпадении ключей,     суммировать значения
-    void addAll(CountMap source);
+    void addAll(CountMap<K> source);
 
     //Вернуть java.util.Map. ключ - добавленный элемент,
     // значение - количество его добавлений
