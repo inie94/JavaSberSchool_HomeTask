@@ -2,13 +2,24 @@
 package homework.lesson4;
 
 import homework.lesson4.terminal.controllers.LoginController;
+import homework.lesson4.terminal.controllers.OwnerController;
+import homework.lesson4.terminal.models.Owner;
+import homework.lesson4.terminal.models.enums.Operation;
+import homework.lesson4.terminal.services.DataBase;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Solution /*extends JFrame*/ {
 
-    private static final LoginController loginController = new LoginController();
+    private static LoginController loginController;
 
+    public Solution(LoginController loginController) {
+        Solution.loginController = loginController;
+    }
+
+//    private DataBase dataBase = new DataBase();
 //    private final MyKeyListener LISTENER = new MyKeyListener();
 //    private static final long serialVersionUID = 1L;
 //    private static JLabel message = new JLabel();
@@ -49,9 +60,20 @@ public class Solution /*extends JFrame*/ {
 //    }
 
     public static void main(String[] args) throws IOException {
-//        JFrame.setDefaultLookAndFeelDecorated(true);
-//        new homework.lesson4.Solution();
-        loginController.authorize();
+
+        DataBase dataBase = new DataBase();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            new Solution(new LoginController(reader));
+            while (true) {
+                Owner owner = loginController.authorize();
+                OwnerController ownerController = new OwnerController(reader, owner);
+                OwnerController.commandList();
+                if (ownerController.getRequest().equals(Operation.EXIT) || ownerController.getRequest().equals(Operation.RETURN))
+                    break;
+            }
+            System.out.println("Thank you for using our service. Whe will glad to see you again!");
+        }
     }
 
 //    public static void dataInfo() {

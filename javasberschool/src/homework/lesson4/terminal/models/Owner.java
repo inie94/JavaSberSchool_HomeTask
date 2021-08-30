@@ -1,6 +1,7 @@
 package homework.lesson4.terminal.models;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Owner {
     private long id;
@@ -10,6 +11,14 @@ public class Owner {
     private List<BankAccount> accounts;
 
     public Owner() {
+    }
+
+    public Owner(long id, String pinCode, String firstname, String lastname, List<BankAccount> accounts) {
+        this.id = id;
+        this.pinCode = pinCode;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.accounts = accounts;
     }
 
     public long getId() {
@@ -50,5 +59,29 @@ public class Owner {
 
     public void setAccounts(List<BankAccount> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Owner owner = (Owner) o;
+        return id == owner.id && Objects.equals(pinCode, owner.pinCode) && Objects.equals(firstname, owner.firstname) && Objects.equals(lastname, owner.lastname) && Objects.equals(accounts, owner.accounts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, pinCode, firstname, lastname, accounts);
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "id=" + id +
+                ", pinCode='" + pinCode + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", accounts=" + accounts +
+                '}';
     }
 }
