@@ -1,14 +1,20 @@
-package homework.lesson5.reflectionhw.task5;
+package homework.lesson5.reflectionhw.task6;
 
 import homework.lesson5.reflectionhw.task1.Calculator;
+import homework.lesson5.reflectionhw.task1.CalculatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Proxy;
 
 public class Solution {
     public static void main(String[] args) {
-        Calculator calculator = new CachingCalculatorProxy();
+
+        Calculator delegate = new CalculatorImpl();
+        Calculator calculator = (Calculator) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(),
+                delegate.getClass().getInterfaces(),
+                new PerformanceProxy(delegate));
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String request;
@@ -29,6 +35,5 @@ public class Solution {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

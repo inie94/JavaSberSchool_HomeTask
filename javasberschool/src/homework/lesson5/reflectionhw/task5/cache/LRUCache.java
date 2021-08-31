@@ -44,7 +44,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     public Object find(K key) {
         if(super.containsKey(key))
             return super.get(key);
-        if (property.containsKey(key))
+        if(property.containsKey(key))
             return Integer.parseInt(property.getProperty(key.toString()));
         return null;
     }
