@@ -28,24 +28,18 @@ public class BeanUtils {
         Set<Method> methods = new HashSet<>();
         Arrays.stream(from.getClass().getDeclaredMethods())
                 .filter(method -> method.getName().startsWith("get"))
-                .forEach(method -> methods.add(method));
+                .forEach(methods::add);
         Arrays.stream(from.getClass().getDeclaredMethods())
-                .filter(method -> method.getName().startsWith("set")).filter(method -> methods.stream().anyMatch(method1 ->
-                        method1.getName().substring(2).equals(method.getName().substring(2)))).forEach(method -> {
+                .filter(method -> method.getName().startsWith("set")).filter(method -> methods.stream()
+                        .anyMatch(method1 -> method1.getName().substring(2).equals(method.getName().substring(2))))
+                .forEach(method -> {
                     Method methodGet = methods.stream()
-                            .filter(method1 -> {
-                                if (method1.getName().substring(2).equals(method.getName().substring(2)) &&
-                                    method.getParameterTypes()[0].isAssignableFrom(method1.getReturnType())) {
-                                    return true;
-                                }
-                                return false;
-                            })
+                            .filter(method1 -> method1.getName().substring(2).equals(method.getName().substring(2)) &&
+                                        method.getParameterTypes()[0].isAssignableFrom(method1.getReturnType()))
                             .findFirst().get();
                     try {
                         method.invoke(to, methodGet.invoke(from));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
                 });
