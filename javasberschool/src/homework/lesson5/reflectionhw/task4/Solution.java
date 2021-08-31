@@ -1,5 +1,6 @@
 package homework.lesson5.reflectionhw.task4;
 
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 public class Solution {
@@ -17,6 +18,7 @@ public class Solution {
 
         Arrays.stream(solutionClass.getDeclaredFields())
                 .filter(field -> field.getType().getTypeName().equals(String.class.getTypeName()))
+                .filter(field -> Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers()))
                 .filter(field -> {
                     try {
                         return field.getName().equals(field.get(solutionClass));
