@@ -67,10 +67,13 @@ public class Solution /*extends JFrame*/ {
             new Solution(new LoginController(reader));
             while (true) {
                 Owner owner = loginController.authorize();
-                OwnerController ownerController = new OwnerController(reader, owner);
-                OwnerController.commandList();
-                if (ownerController.getRequest().equals(Operation.EXIT) || ownerController.getRequest().equals(Operation.RETURN))
-                    break;
+                if(owner != null) {
+                    OwnerController ownerController = new OwnerController(reader, owner);
+                    OwnerController.commandList();
+                    Operation operation = ownerController.getRequest();
+                    if (operation.equals(Operation.EXIT) || operation.equals(Operation.RETURN))
+                        break;
+                }
             }
             System.out.println("Thank you for using our service. Whe will glad to see you again!");
         }

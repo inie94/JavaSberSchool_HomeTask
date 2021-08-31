@@ -34,8 +34,8 @@ public class OwnerController {
                     if (Arrays.stream(Operation.values()).noneMatch(operation -> operation.name().equals(request))) {
                         throw new IllegalRequest();
                     }
-
                     if (request.equals(Operation.LOGOUT.name()) || request.equals(Operation.RETURN.name())) {
+//                        PinValidator.clearPin();
                         return Operation.LOGOUT;
                     }
                     if (request.equals(Operation.EXIT.name())) {
