@@ -8,13 +8,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Lesson5" />
         <module name="Lesson4" />
-        <module name="Lesson6" />
         <module name="Lesson1" />
         <module name="Lesson3" />
         <module name="Lesson2" />
+        <module name="domain" />
+        <module name="Search" />
+        <module name="Iterator" />
+        <module name="persistence" />
+        <module name="AddFriends" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AddFriends" target="8" />
+      <module name="domain" target="8" />
+      <module name="Iterator" target="8" />
       <module name="Lesson" target="8" />
       <module name="Lesson 1 - Main Java classes and packages" target="8" />
       <module name="Lesson1" target="8" />
@@ -23,6 +30,10 @@
       <module name="Lesson4" target="8" />
       <module name="Lesson5" target="8" />
       <module name="Lesson6" target="8" />
+      <module name="persistence" target="8" />
+      <module name="Search" target="8" />
+      <module name="SocialNet" target="8" />
+      <module name="web" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

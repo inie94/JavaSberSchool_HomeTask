@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/AddFriends/AddFriends.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/AddFriends/AddFriends.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/Iterator/Iterator.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/Iterator/Iterator.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson1/Lesson1.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson1/Lesson1.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson2/Lesson2.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson2/Lesson2.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson3/Lesson3.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson3/Lesson3.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson4/Lesson4.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson4/Lesson4.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson5/Lesson5.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson5/Lesson5.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/Lesson6.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/Lesson6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/Search/Search.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/Search/Search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/SocialNet.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/SocialNet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/domain/domain.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/domain/domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/javasberschool.iml" filepath="$PROJECT_DIR$/javasberschool/javasberschool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/persistence/persistence.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/SocialNet/persistence/persistence.iml" />
     </modules>
   </component>
 </project>
