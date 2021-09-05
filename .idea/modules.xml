@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson1/Lesson1.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson1/Lesson1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson2/Lesson2.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson2/Lesson2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson3/Lesson3.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson3/Lesson3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson4/Lesson4.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson4/Lesson4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson5/Lesson5.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson5/Lesson5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javasberschool/Lesson6/Lesson6.iml" filepath="$PROJECT_DIR$/javasberschool/Lesson6/Lesson6.iml" />
       <module fileurl="file://$PROJECT_DIR$/javasberschool/javasberschool.iml" filepath="$PROJECT_DIR$/javasberschool/javasberschool.iml" />
     </modules>
   </component>
