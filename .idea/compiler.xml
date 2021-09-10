@@ -16,6 +16,7 @@
         <module name="Search" />
         <module name="Iterator" />
         <module name="persistence" />
+        <module name="Lesson8" />
         <module name="AddFriends" />
       </profile>
     </annotationProcessing>
@@ -32,6 +33,7 @@
       <module name="Lesson5" target="8" />
       <module name="Lesson6" target="8" />
       <module name="Lesson7" target="8" />
+      <module name="Lesson8" target="8" />
       <module name="persistence" target="8" />
       <module name="Search" target="8" />
       <module name="SocialNet" target="8" />

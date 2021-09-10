@@ -24,29 +24,16 @@ public class URLClassLoaderImpl extends URLClassLoader {
             if (c == null) {
                 // If still not found, then invoke findClass in order
                 // to find the class.
-                long t0 = System.nanoTime();
+
                 try {
                     c = findClass(name);
                 }catch (Exception exception) {
-
+                    // ClassNotFoundException thrown if class not found
+                    // from the non-null parent class loader
                 }
-                long t1 = System.nanoTime();
-                // this is the defining class loader; record the stats
-//                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
-//                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
-//                sun.misc.PerfCounter.getFindClasses().increment();
+
                 if (c == null) {
                     c = getParent().loadClass(name);
-//                    try {
-//                        if (this.getParent() != null) {
-//                            c = this.getParent().loadClass(name, false);
-//                        } else {
-//                            c = findBootstrapClassOrNull(name);
-//                        }
-//                    } catch (ClassNotFoundException e) {
-                        // ClassNotFoundException thrown if class not found
-                        // from the non-null parent class loader
-//                    }
                 }
             }
             if (resolve) {

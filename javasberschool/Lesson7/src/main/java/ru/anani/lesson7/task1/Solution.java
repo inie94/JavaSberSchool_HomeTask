@@ -8,5 +8,6 @@ public class Solution {
         System.out.println("Init");
         pluginManager.initializePlugin();
         pluginManager.startAll();
+
     }
 }
