@@ -1,7 +1,7 @@
 package ru.anani.lesson5.task6;
 
-import homework.lesson5.reflectionhw.task1.Calculator;
-import homework.lesson5.reflectionhw.task1.CalculatorImpl;
+import ru.anani.lesson5.task1.Calculator;
+import ru.anani.lesson5.task1.CalculatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
