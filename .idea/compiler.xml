@@ -16,7 +16,6 @@
         <module name="Search" />
         <module name="Iterator" />
         <module name="persistence" />
-        <module name="Lesson8" />
         <module name="AddFriends" />
       </profile>
     </annotationProcessing>

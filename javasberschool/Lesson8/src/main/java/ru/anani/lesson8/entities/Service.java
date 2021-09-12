@@ -10,10 +10,10 @@ import static ru.anani.lesson8.annotation.CachedType.IN_MEMORY;
 
 public interface Service {
     @Cache(cacheType = FILE, fileNamePrefix = "data", zip = true,
-            identityBy = {String.class, double.class}
+            ignoreIdentificationBy = {3}
     )
     List<String> run(String item, double value, Date date);
 
-    @Cache(cacheType = IN_MEMORY, listList = 100_000)
+    @Cache(cacheType = IN_MEMORY, listList = 5)
     List<String> work(String item);
 }

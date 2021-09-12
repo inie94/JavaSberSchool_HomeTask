@@ -1,5 +1,7 @@
 package ru.anani.lesson8;
 
+import ru.anani.lesson8.annotation.Cache;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,111 +10,190 @@ import java.util.*;
 
 public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
 
-    private final Path cacheFile;
-
-    Map<List<Object>,Object> map = new HashMap<>();
-
-    Properties property = new Properties();
+    private final Path ROOT_DIR;
+    private Path cacheFile;
 
 
+    Map<List<Object>,Object> memoryCache = new HashMap<>();
+    Properties properties = new Properties();
 
-    public LRUCache(String root_dir, String fileName) {
-        this.cacheFile = Paths.get(root_dir + "/" + fileName + ".properties");
-        cacheCreate();
-        try {
-            property.load(new FileInputStream(String.valueOf(cacheFile)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+    public LRUCache(String root_dir) {
+        this.ROOT_DIR = Paths.get(root_dir);
     }
 
-    public void cacheCreate() {
-        if (!Files.exists(cacheFile)) {
+    public void createCacheFile(String fileName, boolean zip) {
+        if (!String.valueOf(cacheFile).equals(ROOT_DIR + "/" + fileName + ".properties")) {
+            this.cacheFile = Paths.get(ROOT_DIR + "/" + fileName + ".properties");
+
+            if (!Files.exists(cacheFile)) {
+                try {
+                    Files.createFile(cacheFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             try {
-                Files.createFile(cacheFile);
+                properties.load(new FileInputStream(String.valueOf(cacheFile)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public boolean containsInMemoryCache(Object[] args) {
-        return map.containsKey(Arrays.asList(args));
+    public boolean contains(Cache cache, Object[] args) {
+        switch (cache.cacheType()) {
+            case FILE:
+                return containsInFileCache(args, cache);
+            case IN_MEMORY:
+                return containsInMemoryCache(args, cache);
+        }
+        return false;
     }
 
-    public boolean containsInFileCache(Object[] args) {
-        ByteArrayOutputStream byteArrayOutputStreamArgs = new ByteArrayOutputStream();
+    public boolean containsInMemoryCache(Object[] args, Cache cache) {
+        if(cache.ignoreIdentificationBy().length == 0) {
+            return memoryCache.containsKey(Arrays.asList(args));
+        } else {
+            List<Object> chekList = new LinkedList<>(Arrays.asList(args));
 
-        try(ObjectOutputStream streamArgs = new ObjectOutputStream(byteArrayOutputStreamArgs)) {
-            streamArgs.writeObject(args);
+            for (int index: cache.ignoreIdentificationBy()) {
+                chekList.remove(index - 1);
+            }
+            return memoryCache.keySet().stream().anyMatch(objects -> objects.containsAll(chekList));
+        }
+    }
+
+    public boolean containsInFileCache(Object[] args, Cache cache) {
+        if(cache.ignoreIdentificationBy().length == 0) {
+            return properties.containsKey(serializeObjectToString(args));
+        } else {
+            List<Object> chekList = new LinkedList<>(Arrays.asList(args));
+
+            for (int index: cache.ignoreIdentificationBy()) {
+                chekList.remove(index - 1);
+            }
+
+            return properties.keySet().stream().anyMatch(o ->
+                Arrays.asList((Object[]) deserializeObjectFromString((String) o)).containsAll(chekList));
+        }
+    }
+
+    public Object find(Cache cache, Object[] args) {
+        switch (cache.cacheType()) {
+            case FILE:
+                return findInFileCache(args, cache.ignoreIdentificationBy());
+            case IN_MEMORY:
+                return findInMemoryCache(args, cache.ignoreIdentificationBy());
+        }
+        return null;
+    }
+
+    public Object findInMemoryCache(Object[] args, int[] ignoreIdentificationBy) {
+        if (ignoreIdentificationBy.length == 0) {
+            return memoryCache.get(Arrays.asList(args));
+        } else {
+            List<Object> chekList = new LinkedList<>(Arrays.asList(args));
+
+            for (int index: ignoreIdentificationBy) {
+                chekList.remove(index - 1);
+            }
+
+            return memoryCache.get(memoryCache.keySet().stream().filter(objects -> objects.containsAll(chekList)).findFirst().get());
+        }
+    }
+
+    public Object findInFileCache(Object[] args, int[] ignoreIdentificationBy) {
+
+        if (ignoreIdentificationBy.length == 0) {
+            return deserializeObjectFromString(properties.getProperty(serializeObjectToString(args)));
+        } else {
+            List<Object> chekList = new LinkedList<>(Arrays.asList(args));
+
+            for (int index: ignoreIdentificationBy) {
+                chekList.remove(index - 1);
+            }
+
+            return  deserializeObjectFromString((String) properties.get(properties.keySet().stream().filter(o -> Arrays.asList((Object[]) deserializeObjectFromString((String) o)).containsAll(chekList)).findFirst().get()));
+        }
+    }
+
+    public void set(Cache cache, Object value, Object[] args) {
+        switch (cache.cacheType()) {
+            case FILE:
+                setInFileCache(cache, value, args);
+                break;
+            case IN_MEMORY:
+                setInMemoryCache(cache, value, args);
+        }
+    }
+
+    public void setInMemoryCache(Cache cache, Object value, Object... args) {
+        if ((value instanceof Collection || value instanceof Map) &&
+                cache.listList() != 0 &&
+                ((List<?>) value).size() > cache.listList()
+        ) {
+            memoryCache.put(
+                    Arrays.asList(args),
+                    ((List<?>) value).subList(
+                            (((List<?>) value).size() - (int) cache.listList()),
+                            ((List<?>) value).size()
+                    )
+            );
+        } else {
+            memoryCache.put(Arrays.asList(args), value);
+        }
+    }
+
+    public void setInFileCache(Cache cache, Object value, Object[] args) {
+        if ((value instanceof Collection || value instanceof Map) &&
+                cache.listList() != 0 &&
+                ((List<?>) value).size() > cache.listList()
+        ) {
+            properties.setProperty(
+                    serializeObjectToString(args),
+                    serializeObjectToString(
+                            new ArrayList<>(
+                                    ((List<?>) value).subList(
+                                        (((List<?>) value).size() - (int) cache.listList()),
+                                        ((List<?>) value).size()
+                                    )
+                            )
+                    )
+            );
+        } else {
+            properties.setProperty(serializeObjectToString(args), serializeObjectToString(value));
+        }
+
+        try {
+            properties.store(new FileOutputStream(String.valueOf(cacheFile)),null);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return property.containsKey(Base64.getEncoder().encodeToString(byteArrayOutputStreamArgs.toByteArray()));
     }
 
-    public Object findInMemoryCache(Object[] args) {
-        return map.get(Arrays.asList(args));
-    }
+    private String serializeObjectToString(Object o) {
+        ByteArrayOutputStream byteArrayOutputStreamOfObject = new ByteArrayOutputStream();
 
-    public Object findInFileCache(Object[] args) {
-//        return map.get(args);
-
-        ByteArrayOutputStream byteArrayOutputStreamArgs = new ByteArrayOutputStream();
-        try(ObjectOutputStream streamArgs = new ObjectOutputStream(byteArrayOutputStreamArgs)) {
-            streamArgs.writeObject(args);
+        try(ObjectOutputStream streamArgs = new ObjectOutputStream(byteArrayOutputStreamOfObject)) {
+            streamArgs.writeObject(o);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return Base64.getEncoder().encodeToString(byteArrayOutputStreamOfObject.toByteArray());
+    }
 
-        ByteArrayInputStream byteArrayInputStreamValue = new ByteArrayInputStream(Base64.getDecoder().decode(property.getProperty(Base64.getEncoder().encodeToString(byteArrayOutputStreamArgs.toByteArray()))));
-
-        Object o = null;
-        try(ObjectInputStream inputStream = new ObjectInputStream(byteArrayInputStreamValue)){
-            o = inputStream.readObject();
+    private Object deserializeObjectFromString(String s) {
+        try(ObjectInputStream inputStream = new ObjectInputStream(
+                new ByteArrayInputStream(Base64.getDecoder().decode(s)))
+        ){
+            return inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return o;
+        return null;
     }
 
-    public void setInMemoryCache(Object value, Object... args) {
-        map.put(Arrays.asList(args), value);
-    }
 
-    public void setInFileCache(Object value, Object... args) {
-        ByteArrayOutputStream byteArrayOutputStreamValue = new ByteArrayOutputStream();
-        ByteArrayOutputStream byteArrayOutputStreamArgs = new ByteArrayOutputStream();
-
-        try(ObjectOutputStream streamValue = new ObjectOutputStream(byteArrayOutputStreamValue);
-            ObjectOutputStream streamArgs = new ObjectOutputStream(byteArrayOutputStreamArgs)) {
-
-            streamValue.writeObject(value);
-            streamArgs.writeObject(args);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        property.setProperty(Base64.getEncoder().encodeToString(byteArrayOutputStreamArgs.toByteArray()), Base64.getEncoder().encodeToString(byteArrayOutputStreamValue.toByteArray()));
-
-        try {
-            property.store(new FileOutputStream(String.valueOf(cacheFile)),null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String convertArgsToKey(Object... args) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{");
-        for (int i = 0; i < args.length; i++) {
-                builder.append(String.valueOf(args[i]));
-            if(i != args.length - 1)
-                builder.append(" ");
-        }
-        builder.append("}");
-        return builder.toString();
-    }
 }
