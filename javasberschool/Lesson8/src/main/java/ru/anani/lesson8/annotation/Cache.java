@@ -11,6 +11,6 @@ public @interface Cache {
     CachedType cacheType();
     String fileNamePrefix() default "";
     boolean zip() default false;
-    long listList() default 16;
+    int listList() default 16;
     int[] ignoreIdentificationBy() default {};
 }

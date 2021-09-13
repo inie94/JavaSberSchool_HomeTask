@@ -1,4 +1,4 @@
-package ru.anani.lesson8;
+package ru.anani.lesson8.ver3;
 
 import ru.anani.lesson8.entities.Service;
 import ru.anani.lesson8.entities.ServiceImpl;
@@ -12,8 +12,11 @@ public class Solution {
 
         Service service = cacheProxy.cache(new ServiceImpl());
         System.out.println("Result \"run\" is: " + service.run(null, 0D, null).toString());
-
         System.out.println("Result \"run\" is: " + service.run(null, 0D, new Date()).toString());
+        System.out.println("Result \"run\" is: " + service.run(null, 4D, null).toString());
+        System.out.println("Result \"run\" is: " + service.run(null, 4D, new Date()).toString());
+        System.out.println("Result \"run\" is: " + service.run(null, 0D, null).toString());
+        System.out.println("Result \"run\" is: " + service.run(null, 4D, new Date()).toString());
 //        System.out.println("Result \"work\" is: " + service.work(null));
 //        System.out.println("Result \"work\" is: " + service.work(null));
 

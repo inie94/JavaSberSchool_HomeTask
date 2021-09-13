@@ -1,9 +1,6 @@
-package ru.anani.lesson8;
-
-
+package ru.anani.lesson8.ver3;
 
 import ru.anani.lesson8.annotation.Cache;
-import ru.anani.lesson8.annotation.CachedType;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -37,6 +34,8 @@ public class CacheProxy {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if(method.isAnnotationPresent(Cache.class)) {
                 System.out.println("With annotation @Cache:");
+                lruCache.setCacheParams(method.getAnnotation(Cache.class));
+                lruCache.config(method.getName());
                 return cacheInvoke(method, args);
             }
             System.out.println("Without annotation @Cache: ");
@@ -44,31 +43,26 @@ public class CacheProxy {
         }
 
         public Object cacheInvoke(Method method, Object[] args) throws Throwable {
-            Cache cacheClass = method.getAnnotation(Cache.class);
+//            Cache cacheClass = method.getAnnotation(Cache.class);
 
-            if (cacheClass.cacheType().equals(CachedType.FILE)) {
-                if (!cacheClass.fileNamePrefix().equals("")) {
-                    lruCache.createCacheFile(cacheClass.fileNamePrefix(), false);
-                } else {
-                    lruCache.createCacheFile(method.getName(), false);
-                }
-            }
-
-            if (lruCache.contains(cacheClass, args)) {
-                return findObjectIntoCache(cacheClass, args);
+            if (lruCache.contains(args)) {
+                System.out.println("Cache contains value true: ");
+                return findObjectIntoCache(args);
             } else {
-                return invokeAndWriteToCache(cacheClass, method, args);
+                System.out.println("Cache contains value false:");
+                return invokeAndWriteToCache(method, args);
             }
         }
+        public Object findObjectIntoCache( Object[] args) {
+            return lruCache.find(args);
+        }
 
-        public Object invokeAndWriteToCache(Cache cache, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object invokeAndWriteToCache(Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             Object result = method.invoke(delegate, args);
-            lruCache.set(cache, result, args);
+            lruCache.set(result, args);
             return result;
         }
 
-        public Object findObjectIntoCache(Cache cache, Object[] args) {
-            return lruCache.find(cache, args);
-        }
+
     }
 }

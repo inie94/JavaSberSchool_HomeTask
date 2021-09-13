@@ -1,4 +1,4 @@
-package ru.anani.lesson8;
+package ru.anani.lesson8.ver2;
 
 import ru.anani.lesson8.annotation.Cache;
 
@@ -11,11 +11,11 @@ import java.util.*;
 public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
 
     private final Path ROOT_DIR;
-    private Path cacheFile;
-
+    private Path filePath;
 
     Map<List<Object>,Object> memoryCache = new HashMap<>();
-    Properties properties = new Properties();
+    Map<List<Object>,Object> fileCache = new HashMap<>();
+//    Properties properties = new Properties();
 
 
     public LRUCache(String root_dir) {
@@ -23,22 +23,18 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
     }
 
     public void createCacheFile(String fileName, boolean zip) {
-        if (!String.valueOf(cacheFile).equals(ROOT_DIR + "/" + fileName + ".properties")) {
-            this.cacheFile = Paths.get(ROOT_DIR + "/" + fileName + ".properties");
+        if (!String.valueOf(filePath).equals(ROOT_DIR + "/" + fileName + ".cache")) {
+            this.filePath = Paths.get(ROOT_DIR + "/" + fileName + ".cache");
 
-            if (!Files.exists(cacheFile)) {
+            if (!Files.exists(filePath)) {
                 try {
-                    Files.createFile(cacheFile);
+                    Files.createFile(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            try {
-                properties.load(new FileInputStream(String.valueOf(cacheFile)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            serializeObject(fileCache);
         }
     }
 
@@ -66,8 +62,9 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
     }
 
     public boolean containsInFileCache(Object[] args, Cache cache) {
+        fileCache = (Map<List<Object>, Object>) deserializeObject();
         if(cache.ignoreIdentificationBy().length == 0) {
-            return properties.containsKey(serializeObjectToString(args));
+            return fileCache.containsKey(Arrays.asList(args));
         } else {
             List<Object> chekList = new LinkedList<>(Arrays.asList(args));
 
@@ -75,8 +72,8 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
                 chekList.remove(index - 1);
             }
 
-            return properties.keySet().stream().anyMatch(o ->
-                Arrays.asList((Object[]) deserializeObjectFromString((String) o)).containsAll(chekList));
+            return fileCache.keySet().stream().anyMatch(o ->
+                    o.containsAll(chekList));
         }
     }
 
@@ -105,17 +102,16 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
     }
 
     public Object findInFileCache(Object[] args, int[] ignoreIdentificationBy) {
-
+        fileCache = (Map<List<Object>, Object>) deserializeObject();
         if (ignoreIdentificationBy.length == 0) {
-            return deserializeObjectFromString(properties.getProperty(serializeObjectToString(args)));
+            return fileCache.get(Arrays.asList(args));
         } else {
             List<Object> chekList = new LinkedList<>(Arrays.asList(args));
 
             for (int index: ignoreIdentificationBy) {
                 chekList.remove(index - 1);
             }
-
-            return  deserializeObjectFromString((String) properties.get(properties.keySet().stream().filter(o -> Arrays.asList((Object[]) deserializeObjectFromString((String) o)).containsAll(chekList)).findFirst().get()));
+            return fileCache.get(fileCache.keySet().stream().filter(key -> key.containsAll(chekList)).findFirst().get());
         }
     }
 
@@ -151,45 +147,42 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
                 cache.listList() != 0 &&
                 ((List<?>) value).size() > cache.listList()
         ) {
-            properties.setProperty(
-                    serializeObjectToString(args),
-                    serializeObjectToString(
-                            new ArrayList<>(
-                                    ((List<?>) value).subList(
-                                        (((List<?>) value).size() - (int) cache.listList()),
-                                        ((List<?>) value).size()
-                                    )
-                            )
+            fileCache.put(
+                    Arrays.asList(args),
+                    new ArrayList<>(
+                        ((List<?>) value).subList(
+                            (((List<?>) value).size() - (int) cache.listList()),
+                            ((List<?>) value).size()
+                        )
                     )
             );
         } else {
-            properties.setProperty(serializeObjectToString(args), serializeObjectToString(value));
+            fileCache.put(Arrays.asList(args), value);
         }
 
-        try {
-            properties.store(new FileOutputStream(String.valueOf(cacheFile)),null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        serializeObject(fileCache);
     }
 
-    private String serializeObjectToString(Object o) {
-        ByteArrayOutputStream byteArrayOutputStreamOfObject = new ByteArrayOutputStream();
-
-        try(ObjectOutputStream streamArgs = new ObjectOutputStream(byteArrayOutputStreamOfObject)) {
+    private void serializeObject(Object o) {
+        try(ObjectOutputStream streamArgs =
+                    new ObjectOutputStream(new FileOutputStream(String.valueOf(filePath)))) {
             streamArgs.writeObject(o);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Base64.getEncoder().encodeToString(byteArrayOutputStreamOfObject.toByteArray());
     }
 
-    private Object deserializeObjectFromString(String s) {
-        try(ObjectInputStream inputStream = new ObjectInputStream(
-                new ByteArrayInputStream(Base64.getDecoder().decode(s)))
-        ){
+    private Object deserializeObject() {
+        try(ObjectInputStream inputStream =
+                    new ObjectInputStream(new FileInputStream(String.valueOf(filePath)))) {
             return inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
