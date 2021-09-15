@@ -1,4 +1,4 @@
-package ru.anani.lesson8.ver3;
+package ru.anani.lesson8.app;
 
 import ru.anani.lesson8.annotation.Cache;
 

@@ -1,9 +1,10 @@
-package ru.anani.lesson8.ver3;
+package ru.anani.lesson8.app;
 
 import ru.anani.lesson8.entities.Service;
 import ru.anani.lesson8.entities.ServiceImpl;
 
 import java.util.Date;
+
 
 public class Solution {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
