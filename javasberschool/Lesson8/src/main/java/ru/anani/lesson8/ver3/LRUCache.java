@@ -21,8 +21,6 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
 
     Map<List<Object>,Object> memoryCache = new HashMap<>();
     Map<List<Object>,Object> fileCache = new HashMap<>();
-//    Properties properties = new Properties();
-
 
     public LRUCache(String root_dir) {
         this.ROOT_DIR = Paths.get(root_dir);
@@ -221,7 +219,6 @@ public class LRUCache<K extends Arrays, V> extends LinkedHashMap<K, V> {
             zipOutputStream.putNextEntry(new ZipEntry(fileName + ".cache"));
             zipOutputStream.write(Files.readAllBytes(tempFile));
             zipOutputStream.closeEntry();
-
 
         } catch (IOException e) {
             e.printStackTrace();
