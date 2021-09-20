@@ -9,6 +9,7 @@
         <module name="Lesson5" />
         <module name="Lesson4" />
         <module name="Lesson7" />
+        <module name="Lesson10" />
         <module name="Lesson1" />
         <module name="Lesson3" />
         <module name="Lesson2" />
@@ -27,6 +28,7 @@
       <module name="Lesson" target="8" />
       <module name="Lesson 1 - Main Java classes and packages" target="8" />
       <module name="Lesson1" target="8" />
+      <module name="Lesson10" target="8" />
       <module name="Lesson2" target="8" />
       <module name="Lesson3" target="8" />
       <module name="Lesson4" target="8" />
