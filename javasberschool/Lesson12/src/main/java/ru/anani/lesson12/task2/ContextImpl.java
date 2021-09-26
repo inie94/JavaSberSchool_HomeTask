@@ -40,7 +40,7 @@ public class ContextImpl implements Context {
 
     @Override
     public void interrupt() {
-        interruptedTaskCount = pool.shutdown();
+//        interruptedTaskCount = pool.shutdown();
     }
 
     @Override

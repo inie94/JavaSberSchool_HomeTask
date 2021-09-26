@@ -14,7 +14,7 @@ public class Solution {
                     e.printStackTrace();
                 }
                 System.out.println(Thread.currentThread().getName() + " execute runnable №1");
-                throw new StackOverflowError();
+//                throw new StackOverflowError();
             }
         };
 
@@ -85,23 +85,23 @@ public class Solution {
             }
         };
 
-        ExecutionManager manager = new ExecutorManagerImpl(new ThreadPool(13));
-
-        Context context = manager.execute(callback, new Runnable[]{runnable1, runnable2, runnable3, runnable4, runnable5, runnable6});
-
-        System.out.println("Context is finished: " + context.isFinished());
-        System.out.println("Completed tasks: " + context.getCompletedTaskCount());
-        System.out.println("Failed tasks: " + context.getFailedTaskCount());
-        System.out.println("Interrupted tasks: " + context.getInterruptedTaskCount());
-
-//        ThreadPool threadPool = new ThreadPool(4);
+//        ExecutionManager manager = new ExecutorManagerImpl(new ThreadPool(13));
 //
-//        threadPool.execute(runnable1);
-//        threadPool.execute(runnable2);
-//        threadPool.execute(runnable3);
-//        threadPool.execute(runnable4);
-//        threadPool.execute(runnable5);
-//        threadPool.execute(runnable6);
+//        Context context = manager.execute(callback, new Runnable[]{runnable1, runnable2, runnable3, runnable4, runnable5, runnable6});
+//
+//        System.out.println("Context is finished: " + context.isFinished());
+//        System.out.println("Completed tasks: " + context.getCompletedTaskCount());
+//        System.out.println("Failed tasks: " + context.getFailedTaskCount());
+//        System.out.println("Interrupted tasks: " + context.getInterruptedTaskCount());
+
+        ThreadPool threadPool = new ThreadPool(4);
+
+        threadPool.execute(runnable1);
+        threadPool.execute(runnable2);
+        threadPool.execute(runnable3);
+        threadPool.execute(runnable4);
+        threadPool.execute(runnable5);
+        threadPool.execute(runnable6);
 
 
 

@@ -16,7 +16,10 @@ public class ThreadPool implements Executor {
 
     @Override
     public void execute(Runnable command) {
-        queue.offer(command);
+        synchronized (queue) {
+            queue.offer(command);
+            queue.notify();
+        }
     }
 
 //    public int shutdown() {
@@ -35,6 +38,14 @@ public class ThreadPool implements Executor {
                     }
                     assert task != null;
                     task.run();
+                } else {
+                    synchronized (queue) {
+                        try {
+                            queue.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
