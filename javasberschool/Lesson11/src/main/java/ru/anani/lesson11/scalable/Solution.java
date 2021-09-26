@@ -1,8 +1,8 @@
-package ru.anani.lesson11.fixed;
+package ru.anani.lesson11.scalable;
 
 public class Solution {
     public static void main(String[] args) {
-        FixedThreadPool threadPool = new FixedThreadPool(3);
+        ScalableThreadPool threadPool = new ScalableThreadPool(3, 10);
         threadPool.start();
         Runnable runnable = () -> {
             try {
