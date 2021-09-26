@@ -10,7 +10,7 @@ public class Solution {
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
-            System.out.println(Thread.currentThread().getName() + "execute runnable");
+            System.out.println(Thread.currentThread().getName() + " execute runnable");
         };
 
         threadPool.execute(runnable);
