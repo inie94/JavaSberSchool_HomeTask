@@ -4,6 +4,7 @@ public class Solution {
     public static void main(String[] args) {
         FixedThreadPool threadPool = new FixedThreadPool(3);
         threadPool.start();
+
         Runnable runnable = () -> {
             try {
                 Thread.sleep(1000);
@@ -33,5 +34,6 @@ public class Solution {
         threadPool.execute(runnable);
         threadPool.execute(runnable);
 
+        threadPool.interrupt();
     }
 }

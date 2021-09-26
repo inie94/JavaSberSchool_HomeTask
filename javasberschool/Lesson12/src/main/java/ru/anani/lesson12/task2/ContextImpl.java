@@ -1,15 +1,17 @@
 package ru.anani.lesson12.task2;
 
+import ru.anani.lesson12.task2.threadpool.FixedThreadPool;
+
 public class ContextImpl implements Context {
 
     private final int taskCount;
-    private final ThreadPool pool;
+    private final FixedThreadPool pool;
 
     private int completedTaskCount = 0;
     private int failedTaskCount = 0;
     private int interruptedTaskCount = 0;
 
-    public ContextImpl(int taskCount, ThreadPool pool) {
+    public ContextImpl(int taskCount, FixedThreadPool pool) {
         this.taskCount = taskCount;
         this.pool = pool;
     }
@@ -40,7 +42,10 @@ public class ContextImpl implements Context {
 
     @Override
     public void interrupt() {
-//        interruptedTaskCount = pool.shutdown();
+        pool.interrupt();
+        while (pool.getMainThread().isAlive()) {
+        }
+        interruptedTaskCount = pool.getCountInterruptedThreads().get();
     }
 
     @Override

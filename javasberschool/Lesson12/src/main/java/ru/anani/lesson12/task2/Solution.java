@@ -1,5 +1,10 @@
 package ru.anani.lesson12.task2;
 
+import ru.anani.lesson12.task2.threadpool.FixedThreadPool;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+
 public class Solution {
     public static int size = 400;
 
@@ -26,7 +31,13 @@ public class Solution {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №2");
+                FutureTask future = new FutureTask(new Callable() {
+                    @Override
+                    public Object call() throws Exception {
+                        System.out.println(Thread.currentThread().getName() + " execute runnable №2");
+                        throw new Exception();
+                    }
+                });
             }
         };
 
@@ -85,25 +96,22 @@ public class Solution {
             }
         };
 
-//        ExecutionManager manager = new ExecutorManagerImpl(new ThreadPool(13));
-//
-//        Context context = manager.execute(callback, new Runnable[]{runnable1, runnable2, runnable3, runnable4, runnable5, runnable6});
-//
-//        System.out.println("Context is finished: " + context.isFinished());
-//        System.out.println("Completed tasks: " + context.getCompletedTaskCount());
-//        System.out.println("Failed tasks: " + context.getFailedTaskCount());
-//        System.out.println("Interrupted tasks: " + context.getInterruptedTaskCount());
+        FutureTask future = new FutureTask(new Callable() {
+            @Override
+            public Object call() throws Exception {
+                System.out.println(Thread.currentThread().getName() + " execute runnable №2");
+                throw new Exception();
+            }
+        });
 
-        ThreadPool threadPool = new ThreadPool(4);
+        ExecutionManager manager = new ExecutorManagerImpl(new FixedThreadPool(13));
 
-        threadPool.execute(runnable1);
-        threadPool.execute(runnable2);
-        threadPool.execute(runnable3);
-        threadPool.execute(runnable4);
-        threadPool.execute(runnable5);
-        threadPool.execute(runnable6);
+        Context context = manager.execute(callback, new Runnable[]{runnable1, runnable2, runnable3, runnable4, runnable5, future});
 
-
+        System.out.println("Context is finished: " + context.isFinished());
+        System.out.println("Completed tasks: " + context.getCompletedTaskCount());
+        System.out.println("Failed tasks: " + context.getFailedTaskCount());
+        System.out.println("Interrupted tasks: " + context.getInterruptedTaskCount());
 
 //        threadPool.shutdown();
     }
