@@ -13,7 +13,8 @@ public class Solution {
         List<Task> tasks = new ArrayList<>();
 
         Callable callable = () -> {
-            int i = 2/0;
+//            int i = 2/0;
+            Thread.sleep(1000);
             return Thread.currentThread().getName() + " execute callable";
         };
 
@@ -23,8 +24,8 @@ public class Solution {
 
         for (int i = 0; i < 5; i++) {
             new Thread(() -> {
-                    System.out.println(Thread.currentThread().getName() + " call get()!");
-                    System.out.println(task.get());
+                System.out.println(Thread.currentThread().getName() + " are created!");
+                System.out.println(task.get());
             }).start();
         }
 
