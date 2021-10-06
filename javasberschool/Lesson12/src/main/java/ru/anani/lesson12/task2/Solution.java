@@ -2,112 +2,71 @@ package ru.anani.lesson12.task2;
 
 import ru.anani.lesson12.task2.threadpool.FixedThreadPool;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-
 public class Solution {
-    public static int size = 400;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        Runnable runnable1 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №1");
+        Runnable runnable1 = () -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + " execute runnable №1");
 //                throw new StackOverflowError();
-            }
         };
 
-        Runnable runnable2 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                FutureTask future = new FutureTask(new Callable() {
-                    @Override
-                    public Object call() throws Exception {
-                        System.out.println(Thread.currentThread().getName() + " execute runnable №2");
-                        throw new Exception();
-                    }
-                });
+        Runnable runnable2 = () -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(Thread.currentThread().getName() + " execute runnable №2");
         };
 
-        Runnable runnable3 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №3");
+        Runnable runnable3 = () -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(Thread.currentThread().getName() + " execute runnable №3");
         };
 
-        Runnable runnable4 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №4");
+        Runnable runnable4 = () -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(Thread.currentThread().getName() + " execute runnable №4");
         };
 
-        Runnable runnable5 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №5");
+        Runnable runnable5 = () -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(Thread.currentThread().getName() + " execute runnable №5");
         };
 
-        Runnable runnable6 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " execute runnable №6");
-            }
+        Runnable runnable6 = () -> {
+            throw new RuntimeException();
         };
 
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Callback is run");
-            }
-        };
 
-        FutureTask future = new FutureTask(new Callable() {
-            @Override
-            public Object call() throws Exception {
-                System.out.println(Thread.currentThread().getName() + " execute runnable №2");
-                throw new Exception();
-            }
-        });
+        Runnable callback = () -> System.out.println("Callback is run");
 
-        ExecutionManager manager = new ExecutorManagerImpl(new FixedThreadPool(13));
 
-        Context context = manager.execute(callback, new Runnable[]{runnable1, runnable2, runnable3, runnable4, runnable5, future});
+        ExecutionManager manager = new ExecutorManagerImpl(new FixedThreadPool(5));
 
+        Context context = manager.execute(callback, runnable1, runnable2, runnable3, runnable4, runnable5, runnable6);
+
+        context.interrupt();
+
+        Thread.sleep(2000);
         System.out.println("Context is finished: " + context.isFinished());
         System.out.println("Completed tasks: " + context.getCompletedTaskCount());
         System.out.println("Failed tasks: " + context.getFailedTaskCount());

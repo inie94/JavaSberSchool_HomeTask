@@ -13,8 +13,11 @@
         <module name="Lesson1" />
         <module name="Lesson3" />
         <module name="Lesson2" />
+        <module name="Lesson15" />
         <module name="Lesson11" />
         <module name="Lesson12" />
+        <module name="Lesson13" />
+        <module name="Lesson14" />
         <module name="domain" />
         <module name="Search" />
         <module name="Iterator" />
@@ -33,6 +36,9 @@
       <module name="Lesson10" target="8" />
       <module name="Lesson11" target="8" />
       <module name="Lesson12" target="8" />
+      <module name="Lesson13" target="8" />
+      <module name="Lesson14" target="8" />
+      <module name="Lesson15" target="8" />
       <module name="Lesson2" target="8" />
       <module name="Lesson3" target="8" />
       <module name="Lesson4" target="8" />

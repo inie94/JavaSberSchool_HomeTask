@@ -28,7 +28,7 @@ public class FixedThreadPool implements ThreadPool {
         threads.forEach(Thread::start);
         new Thread(() -> {
             while (true) {
-                if (isInterrupted  && threads.stream().allMatch(thread -> thread.getState() == Thread.State.WAITING)) {
+                if (isInterrupted && threads.stream().allMatch(thread -> thread.getState() == Thread.State.WAITING)) {
                     System.out.println("All threads execute tasks and will be interrupted");
                     threads.forEach(thread -> thread.interrupt());
                     break;

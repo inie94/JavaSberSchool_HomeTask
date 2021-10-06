@@ -1,10 +1,13 @@
 package ru.anani.lesson12.task2;
 
+
 import ru.anani.lesson12.task2.threadpool.FixedThreadPool;
 
 public class ExecutorManagerImpl implements ExecutionManager{
 
+    private volatile boolean isInterrupted = false;
     private final FixedThreadPool pool;
+    private Runnable callback;
 
     public ExecutorManagerImpl(FixedThreadPool pool) {
         this.pool = pool;
@@ -13,18 +16,23 @@ public class ExecutorManagerImpl implements ExecutionManager{
 
     @Override
     public Context execute(Runnable callback, Runnable... tasks) {
-        ContextImpl context = new ContextImpl(tasks.length, pool);
-        for (Runnable task: tasks) {
-            try {
+//        ContextImpl context = new ContextImpl(tasks.length);
+        this.callback = callback;
+        new Thread(() -> {
+            for (Runnable task: tasks) {
                 pool.execute(task);
-                context.incrementCompletedTaskCount();
-            } catch (Exception exception) {
-                context.incrementFailedTaskCount();
             }
-        }
+            pool.interrupt();
+            while (true) {
+                synchronized (pool) {
+                    if (pool.isDone()) {
+                        new Thread(callback).start();
+                        break;
+                    }
+                }
+            }
+        }).start();
 
-        new Thread(callback).start();
-
-        return context;
+        return pool.getContext();
     }
 }

@@ -14,13 +14,17 @@ public class Solution {
 
         Callable callable = () -> {
 //            int i = 2/0;
-            Thread.sleep(1000);
-            return Thread.currentThread().getName() + " execute callable";
+            Thread.sleep(2000);
+            return "execute callable";
+        };
+        Callable callable1 = () -> {
+            throw new Exception();
         };
 
 
 
         Task task = new Task(callable);
+        Task task1 = new Task(callable1);
 
         for (int i = 0; i < 5; i++) {
             new Thread(() -> {
@@ -28,6 +32,9 @@ public class Solution {
                 System.out.println(task.get());
             }).start();
         }
-
+        new Thread(() -> {
+            System.out.println(Thread.currentThread().getName() + " are created!");
+            System.out.println(task1.get());
+        }).start();
     }
 }

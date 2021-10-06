@@ -4,18 +4,24 @@ import ru.anani.lesson12.task2.threadpool.FixedThreadPool;
 
 public class ContextImpl implements Context {
 
-    private final int taskCount;
-    private final FixedThreadPool pool;
-
+    private int taskCount = 0;
     private int completedTaskCount = 0;
     private int failedTaskCount = 0;
     private int interruptedTaskCount = 0;
 
-    public ContextImpl(int taskCount, FixedThreadPool pool) {
-        this.taskCount = taskCount;
-        this.pool = pool;
+    private final FixedThreadPool threadPool;
+
+    public ContextImpl(FixedThreadPool threadPool) {
+        this.threadPool = threadPool;
     }
 
+    public void incrementTaskCount() {
+        ++this.taskCount;
+    }
+
+    public void incrementInterruptedTaskCount() {
+        ++this.interruptedTaskCount;
+    }
 
     public void incrementCompletedTaskCount() {
         ++this.completedTaskCount;
@@ -23,6 +29,7 @@ public class ContextImpl implements Context {
 
     public void incrementFailedTaskCount() {
         ++this.failedTaskCount;
+        --completedTaskCount;
     }
 
     @Override
@@ -42,14 +49,11 @@ public class ContextImpl implements Context {
 
     @Override
     public void interrupt() {
-        pool.interrupt();
-        while (pool.getMainThread().isAlive()) {
-        }
-        interruptedTaskCount = pool.getCountInterruptedThreads().get();
+        threadPool.interrupt();
     }
 
     @Override
     public boolean isFinished() {
-        return taskCount == completedTaskCount + interruptedTaskCount;
+        return taskCount == completedTaskCount + interruptedTaskCount + failedTaskCount;
     }
 }
