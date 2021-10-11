@@ -21,8 +21,6 @@ public class Solution {
             throw new Exception();
         };
 
-
-
         Task task = new Task(callable);
         Task task1 = new Task(callable1);
 

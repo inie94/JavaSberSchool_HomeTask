@@ -43,8 +43,6 @@ public class CacheProxy {
         }
 
         public Object cacheInvoke(Method method, Object[] args) throws Throwable {
-//            Cache cacheClass = method.getAnnotation(Cache.class);
-
             if (lruCache.contains(args)) {
                 System.out.println("Cache contains value true: ");
                 return findObjectIntoCache(args);
