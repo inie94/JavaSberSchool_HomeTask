@@ -26,14 +26,14 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="bebdd6de-3606-4cf0-8db5-9389ee423d9f">
-        <schema name="pg_catalog" object-types="table" />
-        <schema name="public" object-types="table" />
+        <schema name="pg_catalog" object-types="function" />
+        <schema name="public" object-types="table, view, function" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="bebdd6de-3606-4cf0-8db5-9389ee423d9f">
-      <console name="Connection" type="STANDARD" schema="information_schema" session="Main" />
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select  * from  numbers;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -41,6 +41,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="bebdd6de-3606-4cf0-8db5-9389ee423d9f" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="bebdd6de-3606-4cf0-8db5-9389ee423d9f" dataset="public.numbers" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -67,7 +70,9 @@
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces />
+    <recently-used-interfaces>
+      <mapping database-type="POSTGRES" interface-id="DEFAULT" />
+    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -84,7 +89,7 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="postgres" />
+          <database value="fibonacci" />
           <type value="USER_PASSWORD" />
           <user value="postgres" />
           <deprecated-pwd value="ZnJTP2hxJjc=" />

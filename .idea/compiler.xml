@@ -16,6 +16,7 @@
         <module name="Lesson2" />
         <module name="Lesson15" />
         <module name="Lesson16" />
+        <module name="Lesson17" />
         <module name="Lesson11" />
         <module name="Lesson12" />
         <module name="Lesson13" />
@@ -42,6 +43,7 @@
       <module name="Lesson14" target="8" />
       <module name="Lesson15" target="8" />
       <module name="Lesson16" target="8" />
+      <module name="Lesson17" target="8" />
       <module name="Lesson2" target="8" />
       <module name="Lesson3" target="8" />
       <module name="Lesson4" target="8" />

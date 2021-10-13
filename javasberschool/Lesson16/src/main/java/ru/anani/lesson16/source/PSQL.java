@@ -61,7 +61,6 @@ public class PSQL implements Source {
     @Override
     public void saveAll(List<Integer> result) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO numbers(value) VALUES(?)")) {
-            //можно отсортировать список
             for (Integer integer:result) {
                 statement.setInt(1, integer);
                 statement.executeUpdate();
