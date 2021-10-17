@@ -1,4 +1,4 @@
-package ru.inie.lesson17;
+package ru.inie;
 
 import org.springframework.stereotype.Component;
 

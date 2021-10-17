@@ -1,15 +1,14 @@
+package ru.anani.lesson18;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.inie.lesson17.AnimalService;
-import ru.inie.lesson17.Config;
+import ru.anani.lesson18.config.Config;
 
-
-public class App {
+public class Solution {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-        AnimalService animalService = context.getBean(AnimalService.class);
-        animalService.voice();
+        Terminal terminal = context.getBean(Terminal.class);
+        terminal.start();
     }
-
 }
